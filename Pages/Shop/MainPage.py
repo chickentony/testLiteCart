@@ -1,6 +1,3 @@
-from selenium import webdriver
-
-
 class MainPage:
 
     EMAIL_INPUT: str = '//input[@name="email"]'
