@@ -16,5 +16,12 @@ class MainPage:
         for key, value in enumerate(sections):
             sections_new = self.driver.find_elements_by_xpath('//li[@id="app-"]')
             sections_new[key].click()
-#           Проблема в том, что при кажом клике id элементов меняются, а значит элементы в изначальном массиве не подхо-
-#             дят, нужно понять что с этим можно сделать
+            page_header = self.driver.find_element_by_xpath('//h1').text
+            assert page_header
+            subsections = self.driver.find_elements_by_xpath('//ul[@class="docs"]//li')
+            if len(subsections) > 0:
+                for k, v in enumerate(subsections):
+                    subsections_new = self.driver.find_elements_by_xpath('//ul[@class="docs"]//li')
+                    subsections_new[k].click()
+                    page_header = self.driver.find_element_by_xpath('//h1').text
+                    assert page_header
