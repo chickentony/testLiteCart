@@ -26,6 +26,6 @@ class MainPage:
                 for subsection_number, subsection in enumerate(subsections):
                     subsections_new = self.get_all_left_menu_subsection_items()
                     subsections_new[subsection_number].click()
-                    """ TODO: вынести в хелпер? """
+                    # TODO: вынести в хелпер?
                     page_header = self.driver.find_element_by_xpath('//h1').text
                     assert page_header
