@@ -9,3 +9,5 @@ def test_check_stickers(browser):
 
     browser.get(main_page.URL)
     main_page.get_all_product_images()
+
+    main_page.assert_stickers()
