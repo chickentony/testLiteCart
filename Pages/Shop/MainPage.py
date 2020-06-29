@@ -34,7 +34,6 @@ class MainPage:
         images = self._get_all_products_images()
         for key, image in enumerate(images):
             try:
-                image.find_element_by_xpath('.//div[@class="sticker sale"]')
                 self.stickers[key] = image.find_element_by_xpath('.//div[@class="sticker sale"]').text
             except NoSuchElementException:
                 continue
