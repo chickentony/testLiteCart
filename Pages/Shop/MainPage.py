@@ -2,6 +2,7 @@ from selenium.common.exceptions import NoSuchElementException
 
 
 class MainPage:
+    # ToDo рефакторинг
     """xPath поля email"""
     EMAIL_INPUT: str = '//input[@name="email"]'
 
@@ -30,16 +31,16 @@ class MainPage:
         self.driver.find_element_by_xpath(self.LOGIN_BUTTON).click()
         return self
 
-    """Получает список всех картинок товаров с главной страницы"""
+    """Получает список всех картинок товаров на главной страницы"""
     def _get_all_products_images(self) -> list:
         return self.driver.find_elements_by_xpath(self.PRODUCT_IMAGES_CONTAINER)
 
-    """Получает все стикеры с картинок продуктво на главной странице"""
+    """Получает все стикеры с картинок продуктов на главной странице"""
     def get_all_stickers_from_product_images(self) -> None:
         images = self._get_all_products_images()
         for key, image in enumerate(images):
             try:
-                # ToDo: Сейчас первый ключ для элемента меняется при кажом выхове словаря, нужно переделать
+                # ToDo: Сейчас первый ключ для элемента меняется при кажом вызове словаря, нужно переделать
                 self.stickers[key] = image.find_element_by_xpath(self.STICKER_CONTAINER).text
             except NoSuchElementException:
                 continue
