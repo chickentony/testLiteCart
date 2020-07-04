@@ -12,3 +12,6 @@ def test_check_countries_sorting(browser):
     browser.get(login_page.URL)
     login_page.login('admin', 'admin')
     browser.get(countries_page.URL)
+    countries_page.get_countries_name()
+
+    countries_page.assert_countries_sorting()
