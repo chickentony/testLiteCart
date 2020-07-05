@@ -25,4 +25,7 @@ def test_check_zones_sorting_on_country_page(browser):
     browser.get(login_page.URL)
     login_page.login('admin', 'admin')
     browser.get(countries_page.URL)
-    countries_page.get_zones()
+    countries_page.get_countries_with_zones()
+    countries_page.open_countries_with_zones()
+
+    # countries_page.country_page.assert_zones_sorting()
