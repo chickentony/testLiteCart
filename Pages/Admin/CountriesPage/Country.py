@@ -1,30 +1,30 @@
-from selenium import webdriver
-
-
 class Country:
 
+    # Инициализация браузера и элементов на странице
     def __init__(self, driver):
+        # Инициализация браузера
         self.driver = driver
-        self.ZONE_TABLE: str = '//table[@id="table-zones"]//tr'
-        self.zones_names: list = []
+        # Строка с информацией о зоне в таблице зон
+        self.ZONE_TABLE_ROW: str = '//table[@id="table-zones"]//tr'
 
-    def get_zones(self):
-        zones_info = self.driver.find_elements_by_xpath(self.ZONE_TABLE)
+    # Получает название всех зон, которые есть у страны
+    def get_zones_name(self) -> list:
+        zones_info = self.driver.find_elements_by_xpath(self.ZONE_TABLE_ROW)
         result = []
-        for zone in zones_info:
-            zones_name = zone.find_elements_by_xpath('.//td')
-            for z in zones_name:
-                if z.get_property('cellIndex') == 2:
-                    result.append(z.text)
-                    # self.zones_names.append(z.text)
+        for zone_info in zones_info:
+            zones_names = zone_info.find_elements_by_xpath('.//td')
+            for zone_name in zones_names:
+                if zone_name.get_property('cellIndex') == 2:
+                    result.append(zone_name.text)
+
         return result
 
-    def assert_zones_sorting(self, zones_names: list):
-        formatted_zones_names = list(filter(None, zones_names))
-        # print(foramted_zones_names)
-        sorted_zones_names = sorted(formatted_zones_names)
-        # print(zones_names, sorted_zones_names, end='')
-        if formatted_zones_names == sorted_zones_names:
-            print('Zones sorted in alphabet order')
+    @staticmethod
+    # Сравнивает спсисок с названиями зон с отсортированным спсиском с названием зон
+    def assert_zones_sorting(zones_names: list) -> None:
+        zones_names_without_whitespaces = list(filter(None, zones_names))
+        sorted_zones_names = sorted(zones_names_without_whitespaces)
+        if zones_names_without_whitespaces == sorted_zones_names:
+            print('\n' + 'Zones sorted in alphabet order')
         else:
             raise AssertionError('Check zones sorting')

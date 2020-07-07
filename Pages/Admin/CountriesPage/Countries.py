@@ -1,10 +1,9 @@
-from selenium import webdriver
 from Pages.Admin.CountriesPage.Country import Country
 
 
 class Countries:
-    # country_page: object = Country()
 
+    # Инициализация браузера и элементов на странице
     def __init__(self, driver) -> None:
         self.driver = driver
         # URL Страницы
@@ -13,9 +12,13 @@ class Countries:
         self.COUNTRY_HREF: str = '//form[@name="countries_form"]//td//a'
         # Спсиок для названий стран
         self.countries_names: list = []
+        # Строка с информацие о стране
         self.COUNTRY_ROW: str = '//form[@name="countries_form"]//tr[@class="row"]'
-        self.COUNTRY_EDIT: str = './/td[string-length(text()) > 0]'
+        # Ячейка со значением в строке с информацие о стране
+        self.INFORMATION_CELL: str = './/td[string-length(text()) > 0]'
+        # Список стран у которых есть хотя бы одна зона
         self.countries_with_zones_links: list = []
+        # Страница страны
         self.country_page: Country = Country(driver)
 
     # Заполняет список названиями стран
@@ -26,19 +29,23 @@ class Countries:
                 if country_name.text != '':
                     self.countries_names.append(country_name.text)
 
-    def get_countries_with_zones(self):
+    # Заполняет список стран с зонами, проверяется по значению количества зон в соответствующем поле
+    def get_countries_with_zones(self) -> None:
         countries_info = self.driver.find_elements_by_xpath(self.COUNTRY_ROW)
-        for value in countries_info:
-            res = value.find_elements_by_xpath(self.COUNTRY_EDIT)
-            for v in res:
-                if v.get_property('cellIndex') == 5 and v.text != '0':
-                    self.countries_with_zones_links.append(value.find_element_by_xpath('.//a').get_attribute('href'))
+        for country_info in countries_info:
+            detailed_counties_info = country_info.find_elements_by_xpath(self.INFORMATION_CELL)
+            for detailed_country_info in detailed_counties_info:
+                if detailed_country_info.get_property('cellIndex') == 5 and detailed_country_info.text != '0':
+                    self.countries_with_zones_links.append(
+                        country_info.find_element_by_xpath('.//a').get_attribute('href')
+                    )
 
-    def open_countries_with_zones(self):
+    # Открывает ссылку на страну с зонами и проверяет сортировку этих зон
+    def open_countries_with_zones_and_check_zones_sorting(self) -> None:
         for link in self.countries_with_zones_links:
             self.driver.get(link)
-            result = self.country_page.get_zones()
-            self.country_page.assert_zones_sorting(result)
+            zones_names = self.country_page.get_zones_name()
+            self.country_page.assert_zones_sorting(zones_names)
 
     # Проверяет что полученный спсиок со странами равен отсортированному (по алфавиту) спсику со странами
     def assert_countries_sorting(self) -> None:
