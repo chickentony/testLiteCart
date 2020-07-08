@@ -18,6 +18,8 @@ class Countries:
         self.INFORMATION_CELL: str = './/td[string-length(text()) > 0]'
         # Список стран у которых есть хотя бы одна зона
         self.countries_with_zones_links: list = []
+        # Контейнер с ссылкой
+        self.COUNTRY_LINK_CONTAINER: str = './/a'
         # Страница страны
         self.country_page: Country = Country(driver)
 
@@ -37,7 +39,7 @@ class Countries:
             for detailed_country_info in detailed_counties_info:
                 if detailed_country_info.get_property('cellIndex') == 5 and detailed_country_info.text != '0':
                     self.countries_with_zones_links.append(
-                        country_info.find_element_by_xpath('.//a').get_attribute('href')
+                        country_info.find_element_by_xpath(self.COUNTRY_LINK_CONTAINER).get_attribute('href')
                     )
 
     # Открывает ссылку на страну с зонами и проверяет сортировку этих зон
