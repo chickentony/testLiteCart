@@ -12,4 +12,5 @@ def test_geo_zones_sorting(browser):
     browser.get(login_page.URL)
     login_page.login('admin', 'admin')
     browser.get(geo_zones_page.URL)
+    geo_zones_page.get_geo_zones_links()
     geo_zones_page.open_geo_zone_page()
