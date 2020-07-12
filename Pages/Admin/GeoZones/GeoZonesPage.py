@@ -1,16 +1,21 @@
 from selenium import webdriver
 from Pages.Admin.GeoZones import GeoZonePage
 
+
 class GeoZonesPage:
 
-    def __init__(self, driver):
+    # Инициализация браузера и элементов на странице
+    def __init__(self, driver) -> None:
         self.driver = driver
         # self.driver = webdriver.Chrome()
         self.geo_zone_page = GeoZonePage.GeoZonePage(driver)
+        # URL страницы
         self.URL: str = 'http://localhost/LiteCart/admin/?app=geo_zones&doc=geo_zones'
+        # Ссылка на страницу конкретной гео-зоны
         self.GEO_ZONE_LINK: str = '//form[@name="geo_zones_form"]//table//td//a'
 
-    def get_geo_zones_links(self):
+    # Возвращает список ссылок на страницы гео-зон
+    def get_geo_zones_links(self) -> list:
         geo_zones_links = self.driver.find_elements_by_xpath(self.GEO_ZONE_LINK)
         result = []
         for geo_zone_number, geo_zone_link in enumerate(geo_zones_links):
@@ -19,9 +24,11 @@ class GeoZonesPage:
 
         return result
 
-    def open_geo_zone_page(self):
+    # Переходи на каждую страницу зоны, берет все зоны, котоыре есть на странице и проверяет их сортировку
+    def open_geo_zone_page_and_check_zones_sorting(self):
         geo_zones_links = self.get_geo_zones_links()
         for geo_zone_link in geo_zones_links:
             self.driver.get(geo_zone_link)
-            geo_zone_names = self.geo_zone_page.get_zones()
-            self.geo_zone_page.assert_zone_sorting(geo_zone_names)
+            geo_zones = self.geo_zone_page.get_zones()
+            geo_zone_selected_names = self.geo_zone_page.get_zone_names(geo_zones)
+            self.geo_zone_page.assert_zone_sorting(geo_zone_selected_names)
