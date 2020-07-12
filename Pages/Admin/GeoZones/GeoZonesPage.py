@@ -23,4 +23,5 @@ class GeoZonesPage:
         geo_zones_links = self.get_geo_zones_links()
         for geo_zone_link in geo_zones_links:
             self.driver.get(geo_zone_link)
-            self.geo_zone_page.get_zones()
+            geo_zone_names = self.geo_zone_page.get_zones()
+            self.geo_zone_page.assert_zone_sorting(geo_zone_names)
