@@ -1,4 +1,3 @@
-from selenium import webdriver
 from Pages.Admin.GeoZones import GeoZonePage
 
 
@@ -7,7 +6,6 @@ class GeoZonesPage:
     # Инициализация браузера и элементов на странице
     def __init__(self, driver) -> None:
         self.driver = driver
-        # self.driver = webdriver.Chrome()
         self.geo_zone_page = GeoZonePage.GeoZonePage(driver)
         # URL страницы
         self.URL: str = 'http://localhost/LiteCart/admin/?app=geo_zones&doc=geo_zones'
@@ -24,11 +22,11 @@ class GeoZonesPage:
 
         return result
 
-    # Переходи на каждую страницу зоны, берет все зоны, котоыре есть на странице и проверяет их сортировку
+    # Переходит на каждую страницу зоны, берет все зоны, котоыре есть на странице и проверяет их сортировку
     def open_geo_zone_page_and_check_zones_sorting(self):
         geo_zones_links = self.get_geo_zones_links()
         for geo_zone_link in geo_zones_links:
             self.driver.get(geo_zone_link)
             geo_zones = self.geo_zone_page.get_zones()
-            geo_zone_selected_names = self.geo_zone_page.get_zone_names(geo_zones)
-            self.geo_zone_page.assert_zone_sorting(geo_zone_selected_names)
+            geo_zones_selected_names = self.geo_zone_page.get_zones_names(geo_zones)
+            self.geo_zone_page.assert_zones_sorting(geo_zones_selected_names)

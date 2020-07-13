@@ -1,14 +1,14 @@
 from Tests.browser_settings import init_browser
 from Pages.Admin.LoginPage import LoginPage
-from Pages.Admin.GeoZones import GeoZonesPage
+from Pages.Admin.GeoZones.GeoZonesPage import GeoZonesPage
 
 browser = init_browser
 
 
-# Для каждой страны на странице зон, проверяет сортировку всех гео-зон
+# Для каждой гео-зоны на странице зон, проверяет сортировку всех имеющихся зон
 def test_geo_zones_sorting(browser):
     login_page = LoginPage(browser)
-    geo_zones_page = GeoZonesPage.GeoZonesPage(browser)
+    geo_zones_page = GeoZonesPage(browser)
 
     browser.get(login_page.URL)
     login_page.login('admin', 'admin')

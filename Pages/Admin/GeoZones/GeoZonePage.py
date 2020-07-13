@@ -2,7 +2,6 @@ class GeoZonePage:
 
     # Инициализация браузера и элементов на странице
     def __init__(self, driver) -> None:
-        # self.driver = webdriver.Chrome()
         # Инициализация браузера
         self.driver = driver
         # Селектор с гео зонами
@@ -21,10 +20,10 @@ class GeoZonePage:
         return result
 
     @staticmethod
-    # Возвращает список имен выбранных зон
-    def get_zone_names(zone_names: list) -> list:
+    # Возвращает список имен выбранных зон в выпадающем списке
+    def get_zones_names(zones_names: list) -> list:
         result = []
-        for zone_name in zone_names:
+        for zone_name in zones_names:
             if zone_name.text != '-- All Zones --':
                 result.append(zone_name.text)
 
@@ -32,9 +31,9 @@ class GeoZonePage:
 
     @staticmethod
     # Сравнивает спсисок названий зон с отсортированным спсиском названий зон
-    def assert_zone_sorting(zone_names: list) -> None:
-        sorted_zone_names = sorted(zone_names)
-        if zone_names == sorted_zone_names:
+    def assert_zones_sorting(zones_names: list) -> None:
+        sorted_zones_names = sorted(zones_names)
+        if zones_names == sorted_zones_names:
             print('\n' + 'Zones sorted in alphabet order')
         else:
             raise AssertionError('Check zones sorting')
