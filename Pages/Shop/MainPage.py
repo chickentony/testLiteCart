@@ -1,5 +1,6 @@
 from selenium.common.exceptions import NoSuchElementException
-
+from Pages.Shop.Product.ProductPage import ProductPage
+from selenium import webdriver
 
 class MainPage:
     # ToDo рефакторинг
@@ -20,9 +21,13 @@ class MainPage:
 
     def __init__(self, driver) -> None:
         self.driver = driver
+        # self.driver = webdriver.Chrome()
         self.LOGOTYPE_CONTAINER: str = '//div[@id="logotype-wrapper"]'
         self.PRODUCT_IMAGES_CONTAINER: str = '//div[@class="image-wrapper"]'
         self.STICKER_CONTAINER: str = './/div[@class="sticker sale"]'
+        # Comment this
+        self.FIRST_CAMPAIGN_PRODUCT_HREF: str = '(//div[@id="box-campaigns"]//li//a)[1]'
+        self.product_page = ProductPage(driver)
 
     """Логинется в магазин"""
     def login(self, email: str, password: str):
@@ -44,6 +49,9 @@ class MainPage:
                 self.stickers[key] = image.find_element_by_xpath(self.STICKER_CONTAINER).text
             except NoSuchElementException:
                 continue
+
+    def open_product_page(self, product_link: str):
+        self.driver.find_element_by_xpath(product_link).click()
 
     """Проверка наличия стикеров"""
     def assert_stickers(self) -> None:
