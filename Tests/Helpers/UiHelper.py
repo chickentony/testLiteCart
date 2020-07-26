@@ -13,9 +13,3 @@ class UiHelper:
     def wait_till_page_load(self, locator_xpath: str) -> WebDriverWait:
         wait = WebDriverWait(self.webdriver, 10)
         return wait.until(EC.presence_of_element_located((By.XPATH, locator_xpath)))
-
-    @staticmethod
-    def assert_true(condition: bool):
-        if condition:
-            return True
-        raise Exception('Condition is not true')

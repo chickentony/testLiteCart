@@ -1,6 +1,5 @@
 from selenium.common.exceptions import NoSuchElementException
 from Pages.Shop.Product.ProductPage import ProductPage
-from selenium import webdriver
 
 
 class MainPage:
@@ -22,7 +21,6 @@ class MainPage:
 
     def __init__(self, driver) -> None:
         self.driver = driver
-        # self.driver = webdriver.Chrome()
         self.LOGOTYPE_CONTAINER: str = '//div[@id="logotype-wrapper"]'
         self.PRODUCT_IMAGES_CONTAINER: str = '//div[@class="image-wrapper"]'
         self.STICKER_CONTAINER: str = './/div[@class="sticker sale"]'
